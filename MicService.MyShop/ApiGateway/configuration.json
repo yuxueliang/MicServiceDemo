@@ -1,0 +1,49 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/MsgService/api/{url}",
+      "UpstreamHttpMethod": [ //表示对什么样的请求类型做转发。
+        "Get",
+        "Post"
+      ],
+      "ServiceName": "MsgService", //服务名字
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //指定一个负载均衡算法：  LeastConnection 最少的连接     RoundRobin 轮训
+      },
+      "UseServiceDiscovery": true, //使用服务发现
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MsgKey",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/ProductService/api/{url}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ],
+      "ServiceName": "ProductService", //服务名字
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //指定一个负载均衡算法：  LeastConnection 最少的连接     RoundRobin 轮训
+      },
+      "UseServiceDiscovery": true, //使用服务发现
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ProductKey",
+        "AllowedScopes": []
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "127.0.0.1",
+      "Port": 8500,
+      "Type": "Consul",
+      "PollingInterval": 100
+    }
+  }
+
+}
