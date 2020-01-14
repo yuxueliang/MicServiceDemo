@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using DotNetCore.CAP;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Product.API.Services;
 
 namespace Product.API.Controllers
 {
@@ -7,6 +11,13 @@ namespace Product.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly IProductService _productService;
+
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
         // GET: api/Product
         [HttpGet]
         public IEnumerable<string> Get()
@@ -25,6 +36,8 @@ namespace Product.API.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            _productService.Add();
+
         }
 
         // PUT: api/Product/5
@@ -38,5 +51,7 @@ namespace Product.API.Controllers
         public void Delete(int id)
         {
         }
+
+       
     }
 }
