@@ -3,13 +3,23 @@ using DotNetCore.CAP;
 
 namespace Product.API.Subscribers
 {
-    public class SubscriberService : ISubscriberService, ICapSubscribe
+    public class SubscriberService : ICapSubscribe
     {
 
-        [CapSubscribe("myshop.product.addafter")]
+        [CapSubscribe("myshop.product.addafter", Group = "group1")]
         public void AddProductAfter(DateTime time)
         {
-            Console.WriteLine($@"{DateTime.Now} Subscriber invoked, Info: {time}");
+            Console.WriteLine($@"AddProductAfter-----{DateTime.Now} Subscriber invoked, Info: {time}");
         }
+
+        [CapSubscribe("myshop.product.addafter", Group = "group2")]
+        public void AddProductAfter1(DateTime time)
+        {
+            Console.WriteLine($@"AddProductAfter1 ---{DateTime.Now} Subscriber invoked, Info: {time}");
+        }
+
+
     }
+
+    
 }

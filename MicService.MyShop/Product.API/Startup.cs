@@ -30,17 +30,18 @@ namespace Product.API
         {
             services.AddControllers();
 
-            //services.AddAuthentication("Bearer")
-            //    .AddIdentityServerAuthentication(options =>
-            //    {
-            //        options.Authority = "http://localhost:9500";//identity server 地址             
-            //        options.RequireHttpsMetadata = false;
-            //    });
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:9500";//identity server 地址             
+                    options.RequireHttpsMetadata = false;
+                });
 
 
 
             #region CAP
-            services.AddTransient<ISubscriberService, SubscriberService>();//使用Cap，必须放在Cap前面
+            services.AddTransient<SubscriberService>();//使用Cap，必须放在Cap前面
+          
 
             services.AddCap(x =>
             {
@@ -56,7 +57,6 @@ namespace Product.API
                 //x.UseMongoDB("Your ConnectionStrings");  //MongoDB 4.0+ cluster
 
                 // CAP support RabbitMQ,Kafka,AzureService as the MQ, choose to add configuration you needed：
-                x.UseRabbitMQ("");
                 x.UseRabbitMQ("192.168.189.128");
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
@@ -99,7 +99,7 @@ namespace Product.API
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 
-           // RegeditService(applicationLifetime);
+            RegeditService(applicationLifetime);
 
 
         }
